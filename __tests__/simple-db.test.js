@@ -6,14 +6,23 @@ const BASE_DIR = CI ? HOME : __dirname;
 const TEST_DIR = path.join(BASE_DIR, 'test-dir');
 
 describe('simple database', () => {
-
   beforeEach(async () => {
     await fs.rm(TEST_DIR, { force: true, recursive: true });
     await fs.mkdir(TEST_DIR, { recursive: true });
   });
 
-  it('needs a first test...', async () => {
+  it('calls getById and returns the correct object', async () => {
+    // writes a new file in the test dir.
+    const newPath = path.join(TEST_DIR, '12345.json');
+    const file = fs.writeFile(
+      newPath,
+      JSON.stringify({ test_prop: 'testValue' })
+    );
 
+    // calls getById
+    const actual = SimpleDb.getById(12345);
+
+    // ASSERT
+    expect(actual.test_prop).toEqual('testValue');
   });
-
 });
