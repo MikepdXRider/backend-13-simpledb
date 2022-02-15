@@ -1,5 +1,6 @@
 const fs = require('fs/promises');
 const path = require('path');
+const SimpleDb = require('../lib/SimpleDb.js');
 
 const { CI, HOME } = process.env;
 const BASE_DIR = CI ? HOME : __dirname;
@@ -12,17 +13,17 @@ describe('simple database', () => {
   });
 
   it('calls getById and returns the correct object', async () => {
-    // writes a new file in the test dir.
+    // declare new instance of DB
+    const testDb = new SimpleDb(TEST_DIR);
+    // creates a new path for our file
     const newPath = path.join(TEST_DIR, '12345.json');
-    const file = fs.writeFile(
-      newPath,
-      JSON.stringify({ test_prop: 'testValue' })
-    );
+    // writes a new file using the declared path.
+    await fs.writeFile(newPath, JSON.stringify({ test_prop: 'testValue' }));
 
-    // calls getById
-    const actual = SimpleDb.getById(12345);
+    // attempts to retrieve the new file.
+    const actual = await testDb.getById(12345);
 
-    // ASSERT
+    // assert
     expect(actual.test_prop).toEqual('testValue');
   });
 });
