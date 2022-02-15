@@ -35,4 +35,15 @@ describe('simple database', () => {
       expect(err.message).toEqual('Not found');
     }
   });
+
+  it('calls save with an object, successfully saves the object', async () => {
+    const testDb = new SimpleDb(TEST_DIR);
+    const testObj = {
+      test_prop: 'testValue',
+    };
+
+    const id = await testDb.save(testObj);
+
+    expect(testDb.getById(id)).toEqual(testObj);
+  });
 });
