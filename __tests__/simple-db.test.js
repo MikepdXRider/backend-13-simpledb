@@ -52,16 +52,11 @@ describe('simple database', () => {
     const testObj = {
       test_prop: 'testValue',
     };
-    const newPath = path.join(TEST_DIR, '12345.json');
-    // send three objs to the DB.
-    [1, 2, 3].map(
-      async () => await fs.writeFile(newPath, JSON.stringify(testObj))
-    );
+    await testDb.save(testObj);
+    await testDb.save(testObj);
 
     const getAllResponse = await testDb.getAll();
 
-    expect(getAllResponse).toEqual(
-      expect.arrayContaining([testObj, testObj, testObj])
-    );
+    expect(getAllResponse).toEqual(expect.arrayContaining([testObj, testObj]));
   });
 });
