@@ -44,6 +44,6 @@ describe('simple database', () => {
 
     const id = await testDb.save(testObj);
 
-    expect(testDb.getById(id)).toEqual(testObj);
+    expect(await testDb.getById(id)).toEqual(testObj);
   });
 });
