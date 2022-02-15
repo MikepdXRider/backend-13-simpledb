@@ -26,4 +26,13 @@ describe('simple database', () => {
     // assert
     expect(actual.test_prop).toEqual('testValue');
   });
+
+  it('calls getById with an invalid id, returns the expected error', async () => {
+    const testDb = new SimpleDb(TEST_DIR);
+    try {
+      await testDb.getById('52143');
+    } catch (err) {
+      expect(err.message).toEqual('Not found');
+    }
+  });
 });
